@@ -1,4 +1,4 @@
-fulcrum
+Fulcrum
 =======
 
-Leverage for Scala
+Leverage for Scala.
