@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fulcrum.util.tests
-
-import fulcrum.util._
+package fulcrum.util
 
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
@@ -45,7 +43,7 @@ class LogSpec extends FunSpec with ShouldMatchers {
     it("should use java loggers and levels for its internal representation") {
       val logger = new MockLogger("test")
       implicit val factory = new Factory(logger)
-      Log("test") should equal(new Log(logger))
+      fulcrum.util.Log("test") should equal(new Log(logger))
       Log.Level.Error should equal(new Log.Level(JLevel.SEVERE))
       Log.Level.Warn should equal(new Log.Level(JLevel.WARNING))
       Log.Level.Info should equal(new Log.Level(JLevel.INFO))

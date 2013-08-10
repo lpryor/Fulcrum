@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fulcrum.util.tests
-
-import fulcrum.util._
+package fulcrum.util
 
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
