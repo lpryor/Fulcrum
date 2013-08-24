@@ -31,7 +31,7 @@ object Settings {
   /** Default settings for all projects. */
   val defaults = Defaults.defaultSettings ++ Seq(
     organization := "fulcrum",
-    version := "0.1",
+    version := "0.2",
     scalaVersion := "2.10.2",
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"))
 
