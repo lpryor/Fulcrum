@@ -38,7 +38,8 @@ import PipeOperatorSupportMacros._
 object PipeOperatorSupportMacros {
 
   /** Transforms the non-empty option's value. */
-  def pipe[I, O: c.WeakTypeTag](c: Context { type PrefixType = PipeOperatorSupport[I] })(function: c.Expr[I => O]): c.Expr[O] =
-    CommonMacros(c).applied(function, c.universe.reify(c.prefix.splice.input))
+  def pipe[I, O: c.WeakTypeTag](c: Context { type PrefixType = PipeOperatorSupport[I] }) //
+  (function: c.Expr[I => O]): c.Expr[O] =
+    CommonMacros.applied(c)(function, c.universe.reify(c.prefix.splice.input))
 
 }

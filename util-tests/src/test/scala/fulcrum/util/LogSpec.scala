@@ -19,7 +19,6 @@ package fulcrum.util
 
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-
 import java.util.logging.{
   Level => JLevel,
   Logger => JLogger
@@ -30,6 +29,7 @@ import java.util.logging.{
  *
  * @author Lonnie Pryor III (lonnie@pryor.us.com)
  */
+@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class LogSpec extends FunSpec with ShouldMatchers {
 
   import MockLogger._
@@ -38,7 +38,7 @@ class LogSpec extends FunSpec with ShouldMatchers {
   val thrown = new IllegalStateException
   val sourceClass = getClass.getName
 
-  describe("An inlined logger (Log)") {
+  describe("Log") {
 
     it("should use java loggers and levels for its internal representation") {
       val logger = new MockLogger("test")

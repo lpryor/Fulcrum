@@ -24,7 +24,7 @@ import Keys._
 object Settings {
 
   val reflect = scalaVersion("org.scala-lang" % "scala-reflect" % _)
-  
+
   val junit = "junit" % "junit" % "4.11" % "test"
   val scalatest = "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 
@@ -33,8 +33,7 @@ object Settings {
     organization := "fulcrum",
     version := "0.1",
     scalaVersion := "2.10.2",
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
-  )
+    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"))
 
 }
 
@@ -47,25 +46,22 @@ object Fulcrum extends Build {
   lazy val root: Project = Project(
     id = "fulcrum",
     base = file("."),
-    settings = Settings.defaults
-  ) aggregate (util, util_tests)
+    settings = Settings.defaults) aggregate (util, util_tests)
 
   /** The utilities project. */
   lazy val util: Project = Project(
     id = "fulcrum-util",
     base = file("util"),
     settings = Settings.defaults ++ Seq(
-      libraryDependencies <+= Settings.reflect
-    )
-  )
+      libraryDependencies <+= Settings.reflect))
 
   /** The test project for macros in the utilities project. */
   lazy val util_tests: Project = Project(
     id = "fulcrum-util-tests",
     base = file("util-tests"),
     settings = Settings.defaults ++ Seq(
-      libraryDependencies += Settings.scalatest
-    )
-  ) dependsOn (util)
+      libraryDependencies ++= Seq(
+        Settings.junit,
+        Settings.scalatest))) dependsOn (util)
 
 }

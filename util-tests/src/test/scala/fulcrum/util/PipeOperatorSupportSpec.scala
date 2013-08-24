@@ -25,9 +25,10 @@ import org.scalatest.matchers.ShouldMatchers
  *
  * @author Lonnie Pryor III (lonnie@pryor.us.com)
  */
+@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class PipeOperatorSupportSpec extends FunSpec with ShouldMatchers {
 
-  describe("The support for the pipe operator (|>)") {
+  describe("|>") {
 
     it("should apply functions passed to the pipe") {
       val s = "Hello"

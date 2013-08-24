@@ -45,6 +45,19 @@ trait CommonMacros[C <: Context] {
     }
 
   /**
+   * Creates an expression that is the optimized application of `function` to `input`.
+   */
+  def appliedOrElse[I, O: WeakTypeTag] //
+  (function: Expr[PartialFunction[I, O]], input: Expr[I], toDefault: Expr[I => O]): Expr[O] =
+    function.tree match {
+      case AnonPartialFunction(cases) =>
+        val CaseDef(pat, guard, _) = cases.last
+        c.Expr[O](Match(input.tree, cases.init ::: CaseDef(pat, guard, applied(toDefault, input).tree) :: Nil))
+      case tree =>
+        reify(function.splice.applyOrElse(input.splice, toDefault.splice))
+    }
+
+  /**
    * Extractor for anonymous function trees.
    */
   private[this] object AnonFunction {
@@ -95,5 +108,18 @@ object CommonMacros {
   /** Creates a new context-specific common macros instance. */
   def apply(context: Context): CommonMacros[context.type] =
     new CommonMacros[context.type] { override val c: context.type = context }
+
+  /**
+   * Creates an expression that is the optimized application of `function` to `input`.
+   */
+  def applied[I, O: c.WeakTypeTag](c: Context)(function: c.Expr[I => O], input: c.Expr[I]): c.Expr[O] =
+    CommonMacros(c).applied(function, input)
+
+  /**
+   * Creates an expression that is the optimized application of `function` to `input`.
+   */
+  def appliedOrElse[I, O: c.WeakTypeTag](c: Context) //
+  (function: c.Expr[PartialFunction[I, O]], input: c.Expr[I], toDefault: c.Expr[I => O]): c.Expr[O] =
+    CommonMacros(c).appliedOrElse(function, input, toDefault)
 
 }

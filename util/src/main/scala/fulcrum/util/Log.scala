@@ -196,7 +196,8 @@ object LogMacros {
     log(c)(c.universe.reify(new Log.Level(JLevel.SEVERE)), message)
 
   /** Macro that expands to the conditional submission of an error log entry. */
-  def logErrorWith(c: Context { type PrefixType = Log })(message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
+  def logErrorWith(c: Context { type PrefixType = Log }) //
+  (message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
     logWith(c)(c.universe.reify(new Log.Level(JLevel.SEVERE)), message, thrown)
 
   /** Macro that expands to the conditional submission of a warn log entry. */
@@ -204,7 +205,8 @@ object LogMacros {
     log(c)(c.universe.reify(new Log.Level(JLevel.WARNING)), message)
 
   /** Macro that expands to the conditional submission of a warn log entry. */
-  def logWarnWith(c: Context { type PrefixType = Log })(message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
+  def logWarnWith(c: Context { type PrefixType = Log }) //
+  (message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
     logWith(c)(c.universe.reify(new Log.Level(JLevel.WARNING)), message, thrown)
 
   /** Macro that expands to the conditional submission of an info log entry. */
@@ -212,7 +214,8 @@ object LogMacros {
     log(c)(c.universe.reify(new Log.Level(JLevel.INFO)), message)
 
   /** Macro that expands to the conditional submission of an info log entry. */
-  def logInfoWith(c: Context { type PrefixType = Log })(message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
+  def logInfoWith(c: Context { type PrefixType = Log }) //
+  (message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
     logWith(c)(c.universe.reify(new Log.Level(JLevel.INFO)), message, thrown)
 
   /** Macro that expands to the conditional submission of a debug log entry. */
@@ -220,7 +223,8 @@ object LogMacros {
     log(c)(c.universe.reify(new Log.Level(JLevel.CONFIG)), message)
 
   /** Macro that expands to the conditional submission of a debug log entry. */
-  def logDebugWith(c: Context { type PrefixType = Log })(message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
+  def logDebugWith(c: Context { type PrefixType = Log }) //
+  (message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
     logWith(c)(c.universe.reify(new Log.Level(JLevel.CONFIG)), message, thrown)
 
   /** Macro that expands to the conditional submission of a log entry. */
@@ -233,7 +237,8 @@ object LogMacros {
     }
 
   /** Macro that expands to the conditional submission of a log entry with a throwable. */
-  def logWith(c: Context { type PrefixType = Log })(level: c.Expr[Log.Level], message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
+  def logWith(c: Context { type PrefixType = Log }) //
+  (level: c.Expr[Log.Level], message: c.Expr[String], thrown: c.Expr[Throwable]): c.Expr[Unit] =
     c.universe.reify {
       val jLogger = c.prefix.splice.jLogger
       val jLevel = level.splice.jLevel
