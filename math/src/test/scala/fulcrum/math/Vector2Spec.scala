@@ -1,0 +1,86 @@
+/*
+ * Vector2Spec.scala
+ * 
+ * Copyright (c) 2013 Lonnie Pryor III
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fulcrum.math
+
+import org.scalatest.FunSpec
+import org.scalatest.matchers.ShouldMatchers
+
+/**
+ * Test case for [[fulcrum.math.Vector2]].
+ *
+ * @author Lonnie Pryor III (lonnie@pryor.us.com)
+ */
+@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
+class Vector2Spec extends FunSpec with ShouldMatchers {
+
+  describe("Vector2") {
+
+    it("should allow access to the x and y elements by name and index") {
+      val v = Vector2(1, 2)
+      v.x should be(1)
+      v.y should be(2)
+      v(0) should be(1)
+      v(1) should be(2)
+      evaluating(v(-1)) should produce[IllegalArgumentException]
+      evaluating(v(2)) should produce[IllegalArgumentException]
+    }
+
+    it("should provide specialized equality comparisons") {
+      val v = Vector2(1, 2)
+      v == Vector2(1, 2) should be(true)
+      v == Vector2(3, 4) should be(false)
+      v != Vector2(1, 2) should be(false)
+      v != Vector2(3, 4) should be(true)
+    }
+
+    it("should create direct and immutable copies") {
+      val v = Vector2(1, 2)
+      v.copy() should equal(Vector2(1, 2))
+      v.copy(x = 5) should equal(Vector2(5, 2))
+      v.copy(y = 6) should equal(Vector2(1, 6))
+      v.copy(5, 6) should equal(Vector2(5, 6))
+      v.toVector2 should equal(immutable.Vector2(1, 2))
+    }
+
+    it("should implement the Product2 interface") {
+      val v = Vector2(1, 2)
+      v._1 should be(1)
+      v._2 should be(2)
+      v.canEqual(Vector2(3, 4)) should be(true)
+      v.canEqual("") should be(false)
+    }
+
+    it("should implement the AnyRef interface") {
+      val v = Vector2(1, 2)
+      v should equal(Vector2(1, 2))
+      v should not equal (Vector2(3, 4))
+      v.hashCode should be(Vector2(1, 2).hashCode)
+      v.hashCode should not be (Vector2(3, 4).hashCode)
+      v.toString should be("Vector2(1, 2)")
+    }
+
+    it("should support patern matching") {
+      val v = Vector2(1, 2)
+      val Vector2(x, y) = v
+      x should be(1)
+      y should be(2)
+    }
+
+  }
+
+}

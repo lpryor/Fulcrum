@@ -23,17 +23,20 @@ import Keys._
  */
 object Settings {
 
-  val reflect = scalaVersion("org.scala-lang" % "scala-reflect" % _)
-
-  val junit = "junit" % "junit" % "4.11" % "test"
-  val scalatest = "org.scalatest" %% "scalatest" % "1.9.1" % "test"
-
   /** Default settings for all projects. */
   val defaults = Defaults.defaultSettings ++ Seq(
     organization := "fulcrum",
     version := "0.2",
     scalaVersion := "2.10.2",
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"))
+
+  val macros = Seq(
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _))
+
+  val testing = Seq(
+    libraryDependencies ++= Seq(
+      "junit" % "junit" % "4.11" % "test",
+      "org.scalatest" %% "scalatest" % "1.9.1" % "test"))
 
 }
 
@@ -46,22 +49,30 @@ object Fulcrum extends Build {
   lazy val root: Project = Project(
     id = "fulcrum",
     base = file("."),
-    settings = Settings.defaults) aggregate (util, util_tests)
+    settings = Settings.defaults //
+    ) aggregate (math, util, util_tests)
+
+  /** The math project. */
+  lazy val math: Project = Project(
+    id = "fulcrum-math",
+    base = file("math"),
+    settings = Settings.defaults
+      ++ Settings.testing)
 
   /** The utilities project. */
   lazy val util: Project = Project(
     id = "fulcrum-util",
     base = file("util"),
-    settings = Settings.defaults ++ Seq(
-      libraryDependencies <+= Settings.reflect))
+    settings = Settings.defaults
+      ++ Settings.macros
+      ++ Settings.testing)
 
   /** The test project for macros in the utilities project. */
   lazy val util_tests: Project = Project(
     id = "fulcrum-util-tests",
     base = file("util-tests"),
-    settings = Settings.defaults ++ Seq(
-      libraryDependencies ++= Seq(
-        Settings.junit,
-        Settings.scalatest))) dependsOn (util)
+    settings = Settings.defaults
+      ++ Settings.testing //
+      ) dependsOn (util)
 
 }
