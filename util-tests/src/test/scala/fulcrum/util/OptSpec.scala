@@ -124,7 +124,7 @@ class OptSpec extends FunSpec with ShouldMatchers {
       none foreach (_ => called = true)
       called should be(false)
       some foreach { s =>
-        s should equal("Hello")
+        s should be("Hello")
         called = true
       }
       called should be(true)
